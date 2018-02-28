@@ -13,7 +13,6 @@ class Note: NSObject, NSCoding {
     
     //MARK: Properties
     var note_name: String
-    var note_text: String?
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -22,18 +21,16 @@ class Note: NSObject, NSCoding {
     //MARK: Types
     struct PropertyKey {
         static let note_name = "note_name"
-        static let note_text = "note_text"
     }
     
     //MARK: Initialization
-    init?(note_name: String, note_text: String?){
+    init?(note_name: String){
         
         guard !note_name.isEmpty else {
             return nil
         }
         
         self.note_name = note_name
-        self.note_text = note_text
         
         super.init()
     }
@@ -41,7 +38,6 @@ class Note: NSObject, NSCoding {
     //MARK: NSCoding
     func encode(with aCoder: NSCoder) {
         aCoder.encode(note_name, forKey: PropertyKey.note_name)
-        aCoder.encode(note_text, forKey: PropertyKey.note_text)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -52,10 +48,9 @@ class Note: NSObject, NSCoding {
             return nil
         }
         
-        let note_text = aDecoder.decodeObject(forKey: PropertyKey.note_text) as? String
         
         //Call designated initializer
-        self.init(note_name: note_name, note_text: note_text)
+        self.init(note_name: note_name)
         
     }
     

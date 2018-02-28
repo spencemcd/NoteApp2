@@ -9,22 +9,29 @@
 import UIKit
 import os.log
 
+protocol NoteTableViewControllerDelegate {
+    func setNewNotesValue(new_notes: [Note], index: Int)
+}
+
 class NoteTableViewController: UITableViewController {
 
     
     //MARK: Properties
     var notes = [Note]()
     
+    var index: Int?
+    var delegate: NoteTableViewControllerDelegate?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.leftBarButtonItem = editButtonItem
+        //navigationItem.leftBarButtonItem = editButtonItem
         //load sample data
         //loadSampleNotes()
-        if let savedNotes = loadNotes() {
+        /*if let savedNotes = loadNotes() {
             notes += savedNotes
-        }
+        }*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -69,15 +76,21 @@ class NoteTableViewController: UITableViewController {
 
     
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        /*if editingStyle == .delete {
             // Delete the row from the data source
             notes.remove(at: indexPath.row)
             saveNotes()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }   */
+        if editingStyle == .delete {
+            notes.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            
+        }
     }
     
 
@@ -130,6 +143,10 @@ class NoteTableViewController: UITableViewController {
  
     
     //MARK: Actions
+    //If saved button is pressed then send notes back to ListTableViewController
+    @IBAction func btnSaveAndPassDataPressed(_ sender: Any) {
+        delegate?.setNewNotesValue(new_notes: notes, index: index!)
+    }
     
     @IBAction func unwindToNoteList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? NoteViewController, let note = sourceViewController.note {
@@ -147,36 +164,36 @@ class NoteTableViewController: UITableViewController {
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
             
-            saveNotes()
+            //saveNotes()
         }
         
     }
     //MARK: Private Methods
     
-    private func saveNotes() {
+    /*private func saveNotes() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(notes, toFile: Note.ArchiveURL.path)
         if isSuccessfulSave {
             os_log("Notes successfully saved.", log: OSLog.default, type: .debug)
         } else {
             os_log("Failed to save notes...", log: OSLog.default, type: .error)
         }
-    }
+    }*/
     
     
-    private func loadSampleNotes(){
-        guard let note1 = Note(note_name: "Costco", note_text: "Pants") else {
+    /*private func loadSampleNotes(){
+        guard let note1 = Note(note_name: "Costco") else {
             fatalError("Unable to instantiate note1")
         }
         
-        guard let note2 = Note(note_name: "Ralphs", note_text: "Food") else {
+        guard let note2 = Note(note_name: "Ralphs") else {
              fatalError("Unable to instantiate note2")
         }
         notes += [note1, note2]
         
-    }
+    }*/
     
-    private func loadNotes() -> [Note]? {
+    /*private func loadNotes() -> [Note]? {
         return NSKeyedUnarchiver.unarchiveObject(withFile: Note.ArchiveURL.path) as? [Note]
-    }
+    }*/
 
 }
