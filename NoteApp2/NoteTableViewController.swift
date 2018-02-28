@@ -59,6 +59,7 @@ class NoteTableViewController: UITableViewController {
         let note = notes[indexPath.row]
         
         cell.noteLabel.text = note.note_name
+        cell.costLabel.text = note.note_cost
 
         // Configure the cell...
 

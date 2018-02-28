@@ -52,7 +52,8 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="noteLabel" destination="dEh-9y-Uhb" id="4zd-5M-6fA"/>
+                                    <outlet property="costLabel" destination="Kgv-Qb-PJj" id="3NE-OT-o84"/>
+                                    <outlet property="noteLabel" destination="dEh-9y-Uhb" id="ddk-aN-z2Y"/>
                                     <segue destination="BYZ-38-t0r" kind="show" identifier="showDetail" id="hJY-uv-oGN"/>
                                 </connections>
                             </tableViewCell>
