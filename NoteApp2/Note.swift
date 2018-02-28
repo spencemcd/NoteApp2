@@ -13,10 +13,11 @@ class Note: NSObject, NSCoding {
     
     //MARK: Properties
     var note_name: String
+    //var note_cost: Double
     
     //MARK: Archiving Paths
-    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("notes")
+    //static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    //static let ArchiveURL = DocumentsDirectory.appendingPathComponent("notes")
     
     //MARK: Types
     struct PropertyKey {
@@ -31,6 +32,7 @@ class Note: NSObject, NSCoding {
         }
         
         self.note_name = note_name
+        //self.note_cost = note_cost
         
         super.init()
     }

@@ -12,6 +12,7 @@ import os.log
 class ListTableViewController: UITableViewController, NoteTableViewControllerDelegate {
     func setNewNotesValue(new_notes: [Note], index: Int) {
         lists[index].list = new_notes
+        saveLists()
     }
     
     
@@ -25,7 +26,12 @@ class ListTableViewController: UITableViewController, NoteTableViewControllerDel
         super.viewDidLoad()
 
         //Load sample list
-        loadSampleLists()
+        //loadSampleLists()
+        
+        if let savedLists = loadLists() {
+            lists += savedLists
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -82,6 +88,8 @@ class ListTableViewController: UITableViewController, NoteTableViewControllerDel
         } else if editingStyle == .insert {
             
         }
+        
+        saveLists()
         
     }
  
@@ -142,7 +150,7 @@ class ListTableViewController: UITableViewController, NoteTableViewControllerDel
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             //}
             
-            //saveNotes()
+            saveLists()
             
         }
         
@@ -176,5 +184,17 @@ class ListTableViewController: UITableViewController, NoteTableViewControllerDel
         
         lists += [list1,list2]
     }
-
+    
+    private func saveLists() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(lists, toFile: List.ArchiveURL.path)
+        if isSuccessfulSave {
+            os_log("Lists successfully saved.", log: OSLog.default, type: .debug)
+        } else {
+            os_log("Failed to save lists...", log: OSLog.default, type: .error)
+        }
+    }
+    
+    private func loadLists() -> [List]? {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: List.ArchiveURL.path) as? [List]
+    }
 }

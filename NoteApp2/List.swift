@@ -7,13 +7,25 @@
 //
 
 import UIKit
+import os.log
 
-class List {
+class List: NSObject, NSCoding {
+    
+    //MARK: Archiving Paths
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("lists")
     
     //MARK: Properties
     
     var list_name: String
     var list: [Note]
+    
+    //MARK: Types
+    
+    struct PropertyKey {
+        static let list_name = "list_name"
+        static let list = "list"
+    }
     
     //MARK: Initialization
     init?(list_name: String, list: [Note]) {
@@ -24,6 +36,20 @@ class List {
         
         self.list_name = list_name
         self.list = list
+    }
+    
+    //MARK: NSCoding
+    func encode(with aCoder: NSCoder){
+        aCoder.encode(list_name, forKey: PropertyKey.list_name)
+        aCoder.encode(list, forKey: PropertyKey.list)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder){
+        let list_name = aDecoder.decodeObject(forKey: PropertyKey.list_name) as? String
+        let list = aDecoder.decodeObject(forKey: PropertyKey.list) as? [Note]
+        
+        self.init(list_name: list_name!, list: list!)
+        
     }
     
     
