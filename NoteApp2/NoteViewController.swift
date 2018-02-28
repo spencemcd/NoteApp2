@@ -14,8 +14,8 @@ class NoteViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     //MARK: Properties
     
     @IBOutlet weak var nameTextField: UITextField!
-    //@IBOutlet weak var costTextField: UITextField!
     
+    @IBOutlet weak var costTextField: UITextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     var note: Note?
@@ -29,7 +29,7 @@ class NoteViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         //Set up note if non-nil (existing) 
         if let note = note {
             nameTextField.text = note.note_name
-            //costTextField.text = note.note_cost
+            costTextField.text = note.note_cost
         }
         
         //Enable save button only if text field has valid Note name
@@ -86,9 +86,11 @@ class NoteViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         }
         
         let note_name = nameTextField.text ?? ""
+        let note_cost = costTextField.text ?? ""
+        
         
         //Set note to be passed to NoteTableViewController after the unwind segue
-        note = Note(note_name: note_name)
+        note = Note(note_name: note_name, note_cost: note_cost)
     }
     //MARK: Actions
     
@@ -104,6 +106,10 @@ class NoteViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         let text = nameTextField.text ?? ""
         saveButton.isEnabled = !text.isEmpty
     }
-    
 }
+
+
+
+
+
 

@@ -13,6 +13,7 @@ class Note: NSObject, NSCoding {
     
     //MARK: Properties
     var note_name: String
+    var note_cost: String
     //var note_cost: Double
     
     //MARK: Archiving Paths
@@ -22,24 +23,24 @@ class Note: NSObject, NSCoding {
     //MARK: Types
     struct PropertyKey {
         static let note_name = "note_name"
+        static let note_cost = "note_cost"
     }
     
     //MARK: Initialization
-    init?(note_name: String){
+    init?(note_name: String, note_cost: String){
         
         guard !note_name.isEmpty else {
             return nil
         }
         
         self.note_name = note_name
-        //self.note_cost = note_cost
-        
-        super.init()
+        self.note_cost = note_cost
     }
     
     //MARK: NSCoding
-    func encode(with aCoder: NSCoder) {
+   func encode(with aCoder: NSCoder) {
         aCoder.encode(note_name, forKey: PropertyKey.note_name)
+        aCoder.encode(note_cost, forKey: PropertyKey.note_cost)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -50,9 +51,13 @@ class Note: NSObject, NSCoding {
             return nil
         }
         
+        guard let note_cost = aDecoder.decodeObject(forKey: PropertyKey.note_cost) as? String else {
+            os_log("Unable to decode the name for a Note object.", log: OSLog.default, type: .debug)
+            return nil
+        }
         
         //Call designated initializer
-        self.init(note_name: note_name)
+        self.init(note_name: note_name, note_cost: note_cost)
         
     }
     

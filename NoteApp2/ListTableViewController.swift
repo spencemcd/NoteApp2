@@ -160,7 +160,7 @@ class ListTableViewController: UITableViewController, NoteTableViewControllerDel
     private func loadSampleLists() {
         var notes = [Note]()
         
-        guard let notes1 = Note(note_name: "Banana") else {
+        guard let notes1 = Note(note_name: "Banana", note_cost: "0") else {
                 fatalError("Unable to instantiate notes1")
         }
         
@@ -172,7 +172,7 @@ class ListTableViewController: UITableViewController, NoteTableViewControllerDel
         
         var notes_for_list = [Note]()
         
-        guard let notes2 = Note(note_name: "Apple") else {
+        guard let notes2 = Note(note_name: "Apple", note_cost: "0") else {
             fatalError("Unable to instantiate notes2")
         }
         
