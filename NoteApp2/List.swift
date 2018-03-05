@@ -13,7 +13,7 @@ class List: NSObject, NSCoding {
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("lists")
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("l")
     
     //MARK: Properties
     

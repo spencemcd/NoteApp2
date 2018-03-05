@@ -22,6 +22,7 @@ class NoteTableViewController: UITableViewController {
     var index: Int?
     var delegate: NoteTableViewControllerDelegate?
     
+    @IBOutlet weak var totalCostLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,15 @@ class NoteTableViewController: UITableViewController {
         /*if let savedNotes = loadNotes() {
             notes += savedNotes
         }*/
+        if notes.count == 0 {
+            totalCostLabel.text = "Total Cost: $0"
+        } else {
+            var c: Double = 0.0
+            for n in notes {
+                c += Double(n.note_cost)!
+            }
+            totalCostLabel.text = "Total Cost: $" + String(c)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -165,7 +175,7 @@ class NoteTableViewController: UITableViewController {
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
             
-            //saveNotes()
+            viewDidLoad()
         }
         
     }
